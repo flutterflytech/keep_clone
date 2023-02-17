@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "52.0.0"
+  adaptive_container:
+    dependency: "direct main"
+    description:
+      name: adaptive_container
+      sha256: a291cdeca23fb797c1d2f82b9612fa6a301db7125ebede3ee1390498adfbc059
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   analyzer:
     dependency: transitive
     description:

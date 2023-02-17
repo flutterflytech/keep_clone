@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../classes/notes.dart';
-import '../presentation/bin/bin_page.dart';
+import 'notes_widget.dart';
+
 
 class StaggeredNotesView extends StatelessWidget {
   final List<Notes> listOfNotes;

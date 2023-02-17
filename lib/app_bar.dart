@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_keep_advanced/app_constants.dart';
+import 'package:google_keep_advanced/extensions/breakpoints_extension.dart';
 import 'package:google_keep_advanced/extensions/typography_extension.dart';
 
 
 
 
 final appBar = AppBar(
-  leadingWidth: 200,
+  leadingWidth: 950,
   leading: Row(
     children: [
       const SizedBox(width: 10,),
@@ -22,8 +23,11 @@ final appBar = AppBar(
           icon: const Icon(Icons.menu,color: Colors.grey,size: 24,)),
       Image.asset(ImagePaths.appLogo,fit: BoxFit.fill,height: 48,width: 48,),
      Text('Keep', style: GoogleFonts.roboto(color: CLR.defaultTextColor,fontSize: 22),),
+      const SizedBox(width: 60,),
+      SearchBar(),
     ],
   ),
+
 
   backgroundColor: Colors.white,
   bottom: PreferredSize(
@@ -38,3 +42,59 @@ final appBar = AppBar(
 
 
 );
+
+
+class SearchBar extends StatelessWidget {
+   SearchBar({Key? key}) : super(key: key);
+ final  TextEditingController searchController = TextEditingController();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context,dimens) {
+       double maxWidth = MediaQuery.of(context).size.width;
+       if(maxWidth>565){
+         return AnimatedContainer(
+           duration: const Duration(milliseconds: 200),
+
+           width: maxWidth >= 950? 722:maxWidth*0.60,
+           height: 48,
+           decoration: BoxDecoration(
+               borderRadius: BorderRadius.circular(8),
+               color: CLR.searchBoxColor
+
+           ),
+           child: TextField(
+             controller: searchController,
+             autofocus: false,
+             decoration: InputDecoration(
+               hintText: 'Search',
+               hintStyle: GoogleFonts.roboto(color: CLR.defaultTextColor,fontSize: 16),
+               prefixIcon: IconButton(
+                 onPressed: (){
+
+                 },
+                 tooltip: 'Search',
+                 icon: const Icon(Icons.search,color: CLR.defaultTextColor,),
+
+               ),
+               border: InputBorder.none,
+             ),
+
+           ),
+         );
+       }else{
+         return Row(
+           children: [
+             const SizedBox(width: 200,),
+             IconButton(onPressed: (){}, icon: const Icon(Icons.search,color: CLR.defaultTextColor,)),
+           ],
+         );
+
+       }
+
+      }
+    );
+  }
+}

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_keep_advanced/commonWidgets/empty_placeholder.dart';
 import 'package:google_keep_advanced/presentation/archive/archive_cubit.dart';
+import 'package:provider/provider.dart';
 
 import '../../commonWidgets/staggered_view.dart';
 
 class ArchivePage extends StatefulWidget {
   const ArchivePage({Key? key}) : super(key: key);
-
 
   @override
   State<ArchivePage> createState() => _ArchivePageState();
@@ -23,16 +23,21 @@ class _ArchivePageState extends State<ArchivePage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              state.listOfArchivedBin.isEmpty? const Center(
-                child: EmptyPlaceholderWidget(
-                    placeholderText: 'Your archived notes appear here',
-                    icon: Icons.archive_outlined),
-              ):StaggeredNotesView(listOfNotes: state.listOfArchivedBin,),
+              state.listOfArchivedBin.isEmpty
+                  ? const Center(
+                      child: EmptyPlaceholderWidget(
+                          placeholderText: 'Your archived notes appear here',
+                          icon: Icons.archive_outlined),
+                    )
+                  : Provider(
+                      create: (_) => 2,
+                      child: StaggeredNotesView(
+                        listOfNotes: state.listOfArchivedBin,
+                      )),
             ],
           );
         },
       ),
     );
-
   }
 }

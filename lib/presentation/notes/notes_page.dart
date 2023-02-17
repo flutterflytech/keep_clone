@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../app_constants.dart';
 import '../../classes/notes.dart';
+import '../../commonWidgets/tools_widget.dart';
 import '../../utils/alerts_utils.dart';
 
 class NotesPage extends StatefulWidget {
@@ -35,7 +36,9 @@ class _NotesPageState extends State<NotesPage> {
                 titleController: _titleController,
                 bodyController: _bodyController,
               ),
-              const StaggeredNotesView()
+              Provider<int>(
+                create: (_)=>1,
+                  child: const StaggeredNotesView())
             ],
           );
         },
@@ -305,75 +308,7 @@ class NotesCard extends StatelessWidget {
   }
 }
 
-class ToolsRowWidget extends StatelessWidget {
-  const ToolsRowWidget({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Transform.scale(
-          scale: 0.7,
-          child: IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {},
-            icon: const Icon(
-              Icons.add_alert_outlined,
-            ),
-            tooltip: 'Remind me',
-            hoverColor: Colors.black12,
-          ),
-        ),
-        Transform.scale(
-          scale: 0.7,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.person_add_alt_outlined, size: 24),
-            tooltip: 'Collaborator',
-            hoverColor: Colors.black12,
-          ),
-        ),
-        Transform.scale(
-          scale: 0.7,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.color_lens_outlined, size: 24),
-            tooltip: 'Background options',
-            hoverColor: Colors.black12,
-          ),
-        ),
-        Transform.scale(
-          scale: 0.7,
-          child: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.image_outlined, size: 24),
-            tooltip: 'Add image',
-            hoverColor: Colors.black12,
-          ),
-        ),
-        Transform.scale(
-          scale: 0.7,
-          child: IconButton(
-            onPressed: () {
-              Notes note = Provider.of<Notes>(context,listen: false);
-              context.read<NotesCubit>().moveToArchive(note);
-              Alerts.showSnackBar('fdkvklv', context);
-            },
-            icon: const Icon(Icons.archive_outlined, size: 24),
-            tooltip: 'Archive',
-            hoverColor: Colors.black12,
-          ),
-        ),
-        Transform.scale(
-          scale: 0.7,
-          child: CustomPopUpWidget(),
-        ),
-      ],
-    );
-  }
-}
 
 class CustomPopUpWidget extends StatelessWidget {
  CustomPopUpWidget({Key? key}) : super(key: key);

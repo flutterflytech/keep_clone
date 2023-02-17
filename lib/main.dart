@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Google Keep',
       theme: ThemeData(
         //primaryColor: Colors.blue,
         //primarySwatch:  Colors.yellow,

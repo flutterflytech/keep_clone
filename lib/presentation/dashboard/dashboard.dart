@@ -6,10 +6,14 @@ import 'package:google_keep_advanced/app_bar.dart';
 import 'package:google_keep_advanced/extensions/typography_extension.dart';
 import 'package:google_keep_advanced/presentation/dashboard/dashboard_cubit.dart';
 
+import '../../app_constants.dart';
+
 class DashboardPage extends StatefulWidget {
   final Widget child;
+  final String location;
 
-  const DashboardPage({Key? key, required this.child}) : super(key: key);
+  const DashboardPage({Key? key, required this.child, required this.location})
+      : super(key: key);
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -44,6 +48,21 @@ class _DashboardPageState extends State<DashboardPage> {
         route: '/trash'),
   ];
 
+  int getCurrentIndex() {
+    switch (widget.location) {
+      case RoutesName.remainder:
+        return 1;
+      case RoutesName.edit:
+        return 2;
+      case RoutesName.archive:
+        return 3;
+      case RoutesName.bin:
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -64,7 +83,6 @@ class _DashboardPageState extends State<DashboardPage> {
                               .onDrawerItemSelected(value);
 
                           context.go(destinations[value].route);
-
                         },
                         extended: dimens.maxWidth >= 800,
                         destinations: destinations
@@ -76,15 +94,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                   style: context.titleSmall,
                                 )))
                             .toList(),
-                        selectedIndex: state.currentPageIndex),
+                        selectedIndex: getCurrentIndex()),
                     Expanded(
-                      child: AnimatedSwitcher(
-                        key: widget.key,
-                        duration: const Duration(milliseconds: 200),
-                        switchInCurve: Curves.easeInOut,
-                        switchOutCurve: Curves.easeInOut,
-                        child: widget.child,
-                      ),
+                      child: widget.child,
                     )
                     //Expanded(child: widget.child),
                   ],

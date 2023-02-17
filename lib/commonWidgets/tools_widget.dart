@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../classes/notes.dart';
+import '../presentation/notes/notes_cubit.dart';
+import '../presentation/notes/notes_page.dart';
+import '../utils/alerts_utils.dart';
+
 class ToolsRowWidget extends StatelessWidget {
   const ToolsRowWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    int type = Provider.of<int>(context,listen: false);
-    switch(type){
+
+    ///type:1 - Notes
+    ///type:2 - Archived notes
+    ///type:3 - Deleted notes
+
+    int type = Provider.of<int>(context, listen: false);
+
+    switch (type) {
       case 1:
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TransformSmallScaleWidget(
-                icon: Icons.add_alert_outlined, toolTip: 'Remind me', onTap: () {}),
+                icon: Icons.add_alert_outlined,
+                toolTip: 'Remind me',
+                onTap: () {}),
             TransformSmallScaleWidget(
                 icon: Icons.person_add_alt_outlined,
                 toolTip: 'Collaborator',
@@ -23,9 +36,17 @@ class ToolsRowWidget extends StatelessWidget {
                 toolTip: 'Background options',
                 onTap: () {}),
             TransformSmallScaleWidget(
-                icon: Icons.archive_outlined, toolTip: 'Archive', onTap: () {}),
-            TransformSmallScaleWidget(
-                icon: Icons.more_vert, toolTip: 'More', onTap: () {}),
+                icon: Icons.archive_outlined,
+                toolTip: 'Archive',
+                onTap: () {
+                  Notes note = Provider.of<Notes>(context, listen: false);
+                  context.read<NotesCubit>().moveToArchive(note);
+                  Alerts.showSnackBar('fdkvklv', context);
+                }),
+            Transform.scale(
+              scale: 0.7,
+              child: CustomPopUpWidget(),
+            ),
           ],
         );
       case 2:
@@ -33,7 +54,9 @@ class ToolsRowWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TransformSmallScaleWidget(
-                icon: Icons.add_alert_outlined, toolTip: 'Remind me', onTap: () {}),
+                icon: Icons.add_alert_outlined,
+                toolTip: 'Remind me',
+                onTap: () {}),
             TransformSmallScaleWidget(
                 icon: Icons.person_add_alt_outlined,
                 toolTip: 'Collaborator',
@@ -43,7 +66,9 @@ class ToolsRowWidget extends StatelessWidget {
                 toolTip: 'Background options',
                 onTap: () {}),
             TransformSmallScaleWidget(
-                icon: Icons.archive_outlined, toolTip: 'Archive', onTap: () {}),
+                icon: Icons.unarchive_outlined,
+                toolTip: 'Unarchive',
+                onTap: () {}),
             TransformSmallScaleWidget(
                 icon: Icons.more_vert, toolTip: 'More', onTap: () {}),
           ],
@@ -53,19 +78,13 @@ class ToolsRowWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TransformSmallScaleWidget(
-                icon: Icons.add_alert_outlined, toolTip: 'Remind me', onTap: () {}),
-            TransformSmallScaleWidget(
-                icon: Icons.person_add_alt_outlined,
-                toolTip: 'Collaborator',
+                icon: Icons.delete_forever,
+                toolTip: 'Delete forever',
                 onTap: () {}),
             TransformSmallScaleWidget(
-                icon: Icons.color_lens_outlined,
-                toolTip: 'Background options',
+                icon: Icons.restore_from_trash,
+                toolTip: 'Restore',
                 onTap: () {}),
-            TransformSmallScaleWidget(
-                icon: Icons.archive_outlined, toolTip: 'Archive', onTap: () {}),
-            TransformSmallScaleWidget(
-                icon: Icons.more_vert, toolTip: 'More', onTap: () {}),
           ],
         );
       default:
@@ -73,7 +92,9 @@ class ToolsRowWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TransformSmallScaleWidget(
-                icon: Icons.add_alert_outlined, toolTip: 'Remind me', onTap: () {}),
+                icon: Icons.add_alert_outlined,
+                toolTip: 'Remind me',
+                onTap: () {}),
             TransformSmallScaleWidget(
                 icon: Icons.person_add_alt_outlined,
                 toolTip: 'Collaborator',
@@ -88,9 +109,7 @@ class ToolsRowWidget extends StatelessWidget {
                 icon: Icons.more_vert, toolTip: 'More', onTap: () {}),
           ],
         );
-
     }
-
   }
 }
 
@@ -101,9 +120,9 @@ class TransformSmallScaleWidget extends StatelessWidget {
 
   const TransformSmallScaleWidget(
       {Key? key,
-        required this.icon,
-        required this.toolTip,
-        required this.onTap})
+      required this.icon,
+      required this.toolTip,
+      required this.onTap})
       : super(key: key);
 
   @override

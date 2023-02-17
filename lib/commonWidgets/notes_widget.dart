@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app_constants.dart';
 import '../classes/notes.dart';
-import '../presentation/notes/notes_page.dart';
 import 'tools_widget.dart';
 
 class NotesCard extends StatelessWidget {
@@ -35,10 +35,7 @@ class NotesCard extends StatelessWidget {
               ],
             ),
           ),
-          // const Spacer(
-          //   flex: 1,
-          // ),
-          const ToolsRowWidget(),
+          Provider<Notes>(create: (_) => notes, child: const ToolsRowWidget()),
         ],
       ),
     );

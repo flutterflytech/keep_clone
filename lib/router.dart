@@ -12,7 +12,6 @@ final _parentKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
 final appRouter = GoRouter(
   navigatorKey: _parentKey,
-  initialLocation: RoutesName.home,
   routes: [
     ShellRoute(
         navigatorKey: _shellKey,
@@ -49,7 +48,8 @@ final appRouter = GoRouter(
               }),
         ],
         builder: (context, state, child) {
-          return DashboardPage(child: child);
+          //debugPrint('loaction${state.}');
+          return DashboardPage(location: state.location,child: child,);
         }),
   ],
 );

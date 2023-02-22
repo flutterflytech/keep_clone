@@ -25,13 +25,49 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         //primaryColor: Colors.blue,
         //primarySwatch:  Colors.yellow,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return Colors.black12;
+                }else{
+                  return Colors.white;
+                }
+
+              }),
+          )),
+          cardColor: Colors.white,
 
           colorSchemeSeed:  Colors.yellow,
+        highlightColor: Colors.white,
         navigationRailTheme: const NavigationRailThemeData(
           backgroundColor: Colors.white
         ),
         useMaterial3: true
       ),
+      darkTheme:ThemeData(
+        //primaryColor: Colors.blue,
+        //primarySwatch:  Colors.yellow,
+          textButtonTheme: TextButtonThemeData(
+              style: ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.hovered)) {
+                      return Colors.black12;
+                    }else{
+                      return Colors.white;
+                    }
+
+                  }),
+              )),
+
+          colorSchemeSeed:  Colors.yellow,
+          highlightColor: Colors.grey,
+          navigationRailTheme: const NavigationRailThemeData(
+              backgroundColor: Colors.black
+          ),
+          useMaterial3: true
+      ) ,
+      themeMode: ThemeMode.light,
 
     );
   }

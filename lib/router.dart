@@ -10,6 +10,8 @@ import 'presentation/notes/notes_page.dart';
 
 final _parentKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
+
+
 final appRouter = GoRouter(
   navigatorKey: _parentKey,
   routes: [

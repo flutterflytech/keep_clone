@@ -2,20 +2,20 @@ part of 'archive_cubit.dart';
 
 
 abstract class ArchiveState extends BaseState{
-  List<Notes> listOfArchivedBin;
+  final List<Notes> listOfArchivedBin;
 
-  ArchiveState(super.isLoading, super.errorMessage,this.listOfArchivedBin);
+  const ArchiveState(super.isLoading, super.errorMessage,this.listOfArchivedBin);
 }
 
 class ArchiveInitial extends ArchiveState {
-  ArchiveInitial(super.isLoading, super.errorMessage, super.listOfArchivedBin);
+  const ArchiveInitial(super.isLoading, super.errorMessage, super.listOfArchivedBin);
 
   @override
   List<Object?> get props => [isLoading,errorMessage,listOfArchivedBin];
 }
 
 class ArchiveLoaded extends ArchiveState {
-  ArchiveLoaded(super.isLoading, super.errorMessage, super.listOfArchivedBin);
+  const ArchiveLoaded(super.isLoading, super.errorMessage, super.listOfArchivedBin);
 
   @override
   List<Object?> get props => [isLoading,errorMessage,listOfArchivedBin];
@@ -23,7 +23,7 @@ class ArchiveLoaded extends ArchiveState {
 
 
 class ArchiveError extends ArchiveState {
-  ArchiveError(super.isLoading, super.errorMessage, super.listOfArchivedBin);
+  const ArchiveError(super.isLoading, super.errorMessage, super.listOfArchivedBin);
 
   @override
   List<Object?> get props => [isLoading,errorMessage,listOfArchivedBin];

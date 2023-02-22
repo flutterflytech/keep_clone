@@ -11,9 +11,43 @@ class BinCubit extends Cubit<BinState> {
   }
 
  void  getDeletedList(){
+
+    emit(BinLoaded(state.isLoading, state.errorMessage, getList()));
+  }
+
+
+
+  void deletePermanent(Notes note){
+
+    note.delete();
+
+    emit(BinLoaded(state.isLoading, state.errorMessage, getList()));
+
+
+  }
+
+  void restoreNote(Notes note){
+    note.delete();
+
+    var box = Hive.box<Notes>('myNotes');
+    box.add(note);
+
+    emit(BinLoaded(state.isLoading, state.errorMessage, getList()));
+
+
+  }
+
+  void cleanBin(){
+    var box = Hive.box<Notes>('deletedNotes');
+    box.deleteAll(box.keys);
+    emit(BinLoaded(state.isLoading, state.errorMessage, getList()));
+  }
+
+
+  List<Notes> getList(){
     List<Notes> list = [];
     var box = Hive.box<Notes>('deletedNotes');
     list = box.values.toList();
-    emit(BinLoaded(state.isLoading, state.errorMessage, list));
+    return list;
   }
 }

@@ -48,12 +48,27 @@ class _BinPageState extends State<BinPage> {
                     ),
                     state.listOfDeletedBin.isNotEmpty
                         ? TextButton(
+                            onPressed: () {
+
+                              context.read<BinCubit>().cleanBin();
+                            },
+                      style: TextButton.styleFrom(
+                        surfaceTintColor: Colors.white,
+                        shadowColor: Colors.white,
+                        backgroundColor: Colors.white,
+
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            
+                        ),
+
+
+                      ),
                             child: Text(
                               'Empty Bin',
                               style: context.titleSmall!
                                   .copyWith(color: Colors.blue),
                             ),
-                            onPressed: () {},
                           )
                         : const SizedBox(),
                   ],

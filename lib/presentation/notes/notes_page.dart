@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:google_keep_advanced/commonWidgets/empty_placeholder.dart';
+import 'package:google_keep_advanced/extensions/typography_extension.dart';
 import 'package:google_keep_advanced/presentation/notes/notes_cubit.dart';
 import 'package:provider/provider.dart';
 
-import '../../app_constants.dart';
 import '../../classes/notes.dart';
-import '../../commonWidgets/notes_widget.dart';
+import '../../commonWidgets/staggered_view.dart';
 import '../../commonWidgets/tools_widget.dart';
 import '../../utils/alerts_utils.dart';
 
@@ -38,8 +36,10 @@ class _NotesPageState extends State<NotesPage> {
                 bodyController: _bodyController,
               ),
               Provider<int>(
-                create: (_)=>1,
-                  child: const StaggeredNotesView())
+                  create: (_) => 1,
+                  child: StaggeredNotesView(
+                    listOfNotes: state.listOfNotes,
+                  ))
             ],
           );
         },
@@ -156,41 +156,28 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
                   visible: isExpanded,
                   child: Row(
                     children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add_alert_outlined),
-                        tooltip: 'New list',
-                        hoverColor: Colors.black12,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.person_add_alt_outlined),
-                        tooltip: 'New note with drawing',
-                        hoverColor: Colors.black12,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.color_lens_outlined),
-                        tooltip: 'New note with image',
-                        hoverColor: Colors.black12,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.image_outlined),
-                        tooltip: 'New note with image',
-                        hoverColor: Colors.black12,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.archive_outlined),
-                        tooltip: 'New note with image',
-                        hoverColor: Colors.black12,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_vert),
-                        tooltip: 'New note with image',
-                        hoverColor: Colors.black12,
+                      TransformSmallScaleWidget(
+                          icon: Icons.add_alert_outlined,
+                          toolTip: 'Remind me',
+                          onTap: () {}),
+                      TransformSmallScaleWidget(
+                          icon: Icons.person_add_alt_outlined,
+                          toolTip: 'Collaborator',
+                          onTap: () {}),
+                      TransformSmallScaleWidget(
+                          icon: Icons.color_lens_outlined,
+                          toolTip: 'Background options',
+                          onTap: () {}),
+                      TransformSmallScaleWidget(
+                          icon: Icons.archive_outlined,
+                          toolTip: 'Archive',
+                          onTap: () {
+                            Notes note = Provider.of<Notes>(context, listen: false);
+                            context.read<NotesCubit>().moveToArchive(note);
+                          }),
+                      Transform.scale(
+                        scale: 0.7,
+                        child: MorePopUpWidget(),
                       ),
                       const Spacer(
                         flex: 1,
@@ -212,10 +199,14 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
                                 });
                               },
                               style: TextButton.styleFrom(
+                                fixedSize: const Size(87, 30),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                
                                   foregroundColor: Colors.black),
-                              child: const Text('Close'));
+                              child:  Text('Close',style: context.labelLarge,));
                         },
-                      )
+                      ),
+                      const SizedBox(width: 10,)
                     ],
                   ),
                 ),
@@ -228,195 +219,59 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
   }
 }
 
-class StaggeredNotesView extends StatelessWidget {
-  const StaggeredNotesView({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NotesCubit, NotesState>(
-      builder: (context, state) {
-        if (state.listOfNotes.isEmpty) {
-          return const Expanded(
-              child: EmptyPlaceholderWidget(
-                  placeholderText: 'Notes you add appear here',
-                  icon: Icons.lightbulb_outline));
-        } else {
-          return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50, top: 20),
-              child: MasonryGridView.builder(
-                gridDelegate:
-                    const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 260),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                shrinkWrap: true,
-                itemCount: state.listOfNotes.length,
-                itemBuilder: (context, index) {
-                  return NotesCard(notes: state.listOfNotes[index]);
-                },
-              ),
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-//
-// class NotesCard extends StatelessWidget {
-//   final Notes notes;
-//
-//   const NotesCard({Key? key, required this.notes}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       //height: 104,
-//       clipBehavior: Clip.antiAlias,
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(8),
-//           border: Border.all(color: CLR.notesBorderColor)),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.all(15.0),
-//             child: Column(
-//               children: [
-//                 Text(
-//                   notes.title,
-//                 ),
-//                 Text(
-//                   notes.body,
-//                 ),
-//               ],
-//             ),
-//           ),
-//           // const Spacer(
-//           //   flex: 1,
-//           // ),
-//           Provider(
-//             create: (_)=>notes,
-//               child: const ToolsRowWidget()
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class ToolsRowWidget extends StatelessWidget {
-//   const ToolsRowWidget({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       children: [
-//         Transform.scale(
-//           scale: 0.7,
-//           child: IconButton(
-//             padding: EdgeInsets.zero,
-//             onPressed: () {},
-//             icon: const Icon(
-//               Icons.add_alert_outlined,
-//             ),
-//             tooltip: 'Remind me',
-//             hoverColor: Colors.black12,
-//           ),
-//         ),
-//         Transform.scale(
-//           scale: 0.7,
-//           child: IconButton(
-//             onPressed: () {},
-//             icon: const Icon(Icons.person_add_alt_outlined, size: 24),
-//             tooltip: 'Collaborator',
-//             hoverColor: Colors.black12,
-//           ),
-//         ),
-//         Transform.scale(
-//           scale: 0.7,
-//           child: IconButton(
-//             onPressed: () {},
-//             icon: const Icon(Icons.color_lens_outlined, size: 24),
-//             tooltip: 'Background options',
-//             hoverColor: Colors.black12,
-//           ),
-//         ),
-//         Transform.scale(
-//           scale: 0.7,
-//           child: IconButton(
-//             onPressed: () {},
-//             icon: const Icon(Icons.image_outlined, size: 24),
-//             tooltip: 'Add image',
-//             hoverColor: Colors.black12,
-//           ),
-//         ),
-//         Transform.scale(
-//           scale: 0.7,
-//           child: IconButton(
-//             onPressed: () {
-//               Notes note = Provider.of<Notes>(context,listen: false);
-//               context.read<NotesCubit>().moveToArchive(note);
-//               Alerts.showSnackBar('fdkvklv', context);
-//             },
-//             icon: const Icon(Icons.archive_outlined, size: 24),
-//             tooltip: 'Archive',
-//             hoverColor: Colors.black12,
-//           ),
-//         ),
-//         Transform.scale(
-//           scale: 0.7,
-//           child: CustomPopUpWidget(),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-class CustomPopUpWidget extends StatelessWidget {
- CustomPopUpWidget({Key? key}) : super(key: key);
+class MorePopUpWidget extends StatelessWidget {
+  MorePopUpWidget({Key? key}) : super(key: key);
   final List<String> _list = [
     'Delete note',
     'Add label',
     'Add drawing',
     'Make a copy',
-    'Show tick boxes',
+    'Show checkboxes',
     'Copy to Google Docs'
-
   ];
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
-      tooltip: 'More',
-      onSelected: (index){
-        if(index==0){
-
-          Notes note = Provider.of<Notes>(context,listen: false);
-          context.read<NotesCubit>().moveToBin(note);
-          
-        }
-        
-      },
-
-      itemBuilder: (context) {
-        return List.generate(5, (index) {
-          return _buildPopMenuItem(_list[index],index);
-        });
-      },
-      icon: const Icon(Icons.more_vert, size: 24),
+    return Theme(
+      data: ThemeData(primaryColor: Colors.white,splashColor: Colors.black12,),
+      child: PopupMenuButton(
+        tooltip: 'More',
+        color: Colors.white,
+        elevation: 5,
+        splashRadius: 20,
+        padding: EdgeInsets.zero,
+        surfaceTintColor:Colors.black12,
+        constraints: const BoxConstraints(maxHeight: 204, maxWidth: 163),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        onSelected: (index) {
+          if (index == 0) {
+            Notes note = Provider.of<Notes>(context, listen: false);
+            context.read<NotesCubit>().moveToBin(note);
+          }
+        },
+        itemBuilder: (context) {
+          return List.generate(_list.length, (index) {
+            return _buildPopMenuItem(_list[index], index, context);
+          });
+        },
+        icon: const Icon(
+          Icons.more_vert,
+          size: 24,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 
- PopupMenuItem _buildPopMenuItem(String name,int index){
-    return PopupMenuItem(child: Text(name),
-    value: index,);
-
+  PopupMenuItem _buildPopMenuItem(
+      String name, int index, BuildContext context) {
+    return PopupMenuItem(
+      value: index,
+      height: 30,
+      child: Text(
+        name,
+        style: context.bodyMedium!.copyWith(fontWeight: FontWeight.w400),
+      ),
+    );
   }
 }

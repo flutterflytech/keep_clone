@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_keep_advanced/presentation/archive/archive_cubit.dart';
+import 'package:google_keep_advanced/presentation/bin/bin_cubit.dart';
 import 'package:provider/provider.dart';
 
 import '../classes/notes.dart';
@@ -21,7 +23,7 @@ class ToolsRowWidget extends StatelessWidget {
     switch (type) {
       case 1:
         return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TransformSmallScaleWidget(
                 icon: Icons.add_alert_outlined,
@@ -45,7 +47,7 @@ class ToolsRowWidget extends StatelessWidget {
                 }),
             Transform.scale(
               scale: 0.7,
-              child: CustomPopUpWidget(),
+              child: MorePopUpWidget(),
             ),
           ],
         );
@@ -68,7 +70,10 @@ class ToolsRowWidget extends StatelessWidget {
             TransformSmallScaleWidget(
                 icon: Icons.unarchive_outlined,
                 toolTip: 'Unarchive',
-                onTap: () {}),
+                onTap: () {
+                  Notes note = Provider.of<Notes>(context, listen: false);
+                  context.read<ArchiveCubit>().unarchiveNotes(note);
+                }),
             TransformSmallScaleWidget(
                 icon: Icons.more_vert, toolTip: 'More', onTap: () {}),
           ],
@@ -80,11 +85,17 @@ class ToolsRowWidget extends StatelessWidget {
             TransformSmallScaleWidget(
                 icon: Icons.delete_forever,
                 toolTip: 'Delete forever',
-                onTap: () {}),
+                onTap: () {
+                  Notes note = Provider.of<Notes>(context, listen: false);
+                  context.read<BinCubit>().deletePermanent(note);
+                }),
             TransformSmallScaleWidget(
                 icon: Icons.restore_from_trash,
                 toolTip: 'Restore',
-                onTap: () {}),
+                onTap: () {
+                  Notes note = Provider.of<Notes>(context, listen: false);
+                  context.read<BinCubit>().restoreNote(note);
+                }),
           ],
         );
       default:

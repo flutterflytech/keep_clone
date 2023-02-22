@@ -19,7 +19,7 @@ class StaggeredNotesView extends StatelessWidget {
               child: MasonryGridView.builder(
                 gridDelegate:
                 const SliverSimpleGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 260),
+                    maxCrossAxisExtent: 240),
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 shrinkWrap: true,

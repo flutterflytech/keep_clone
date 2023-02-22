@@ -11,10 +11,26 @@ class ArchiveCubit extends Cubit<ArchiveState> {
   }
 
   void getArchivedNotes(){
+
+    emit(ArchiveLoaded(state.isLoading, state.errorMessage, getList()));
+  }
+
+  void unarchiveNotes(Notes note){
+    note.delete();
+
+    var box = Hive.box<Notes>('myNotes');
+    box.add(note);
+    emit(ArchiveLoaded(state.isLoading, state.errorMessage, getList()));
+
+
+  }
+
+  List<Notes> getList(){
     List<Notes> list = [];
     var box = Hive.box<Notes>('archivedNotes');
     list = box.values.toList();
-    emit(ArchiveLoaded(state.isLoading, state.errorMessage, list));
+    return list;
+
   }
 
 

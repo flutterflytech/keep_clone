@@ -25,27 +25,27 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: const Icon(Icons.lightbulb_outline),
         selectedIcon: const Icon(Icons.lightbulb),
         label: 'Notes',
-        route: '/'),
+        route: RoutesName.home),
     NavigationDestination(
         icon: const Icon(Icons.notifications_none),
         selectedIcon: const Icon(Icons.notifications),
         label: 'Remainders',
-        route: '/remainders'),
+        route: RoutesName.remainder),
     NavigationDestination(
         icon: const Icon(Icons.edit_outlined),
         selectedIcon: const Icon(Icons.edit),
         label: 'Edit labels',
-        route: '/'),
+        route: RoutesName.edit),
     NavigationDestination(
         icon: const Icon(Icons.archive_outlined),
         selectedIcon: const Icon(Icons.archive),
         label: 'Archive',
-        route: '/archive'),
+        route: RoutesName.archive),
     NavigationDestination(
         icon: const Icon(CupertinoIcons.trash),
         selectedIcon: const Icon(CupertinoIcons.trash_fill),
         label: 'Bin',
-        route: '/trash'),
+        route: RoutesName.bin),
   ];
 
   int getCurrentIndex() {
@@ -109,6 +109,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 }
+
 
 class NavigationDestination {
   final Icon icon;

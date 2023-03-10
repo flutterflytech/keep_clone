@@ -55,10 +55,10 @@ class SearchBar extends StatelessWidget {
       builder: (context,dimens) {
        double maxWidth = MediaQuery.of(context).size.width;
        if(maxWidth>565){
-         return AnimatedContainer(
-           duration: const Duration(milliseconds: 200),
+         return Container(
+           //duration: const Duration(microseconds: 50),
 
-           width: maxWidth >= 950? 722:maxWidth*0.60,
+           width: maxWidth >= 950? 722: maxWidth*0.50,
            height: 48,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.circular(8),

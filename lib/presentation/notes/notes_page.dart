@@ -4,10 +4,11 @@ import 'package:google_keep_advanced/extensions/typography_extension.dart';
 import 'package:google_keep_advanced/presentation/notes/notes_cubit.dart';
 import 'package:provider/provider.dart';
 
+import '../../app_constants.dart';
 import '../../classes/notes.dart';
+import '../../commonWidgets/empty_placeholder.dart';
 import '../../commonWidgets/staggered_view.dart';
 import '../../commonWidgets/tools_widget.dart';
-import '../../utils/alerts_utils.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class _NotesPageState extends State<NotesPage> {
       child: BlocBuilder<NotesCubit, NotesState>(
         builder: (context, state) {
           return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 20,
@@ -35,11 +37,26 @@ class _NotesPageState extends State<NotesPage> {
                 titleController: _titleController,
                 bodyController: _bodyController,
               ),
-              Provider<int>(
+              state.listOfNotes.isEmpty
+                  ? const Spacer(
+                flex: 1,
+              )
+                  : const SizedBox(),
+              state.listOfNotes.isEmpty
+                  ? const Center(
+                child: EmptyPlaceholderWidget(
+                    placeholderText: 'Notes you add appear here',
+                    icon: Icons.lightbulb_outline),
+              ):Provider<int>(
                   create: (_) => 1,
                   child: StaggeredNotesView(
                     listOfNotes: state.listOfNotes,
-                  ))
+                  )),
+              state.listOfNotes.isEmpty
+                  ? const Spacer(
+                flex: 1,
+              )
+                  : const SizedBox(),
             ],
           );
         },
@@ -94,7 +111,7 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.push_pin_outlined),
+                          icon: const Icon(Icons.push_pin_outlined),
                           tooltip: 'Pin note',
                         ),
                         suffixIconConstraints:
@@ -102,8 +119,10 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
                         fillColor: Colors.white,
                         filled: true,
                         hintText: 'Title',
+                        hintStyle: context.labelLarge!.copyWith(color: CLR.defaultTextColor),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.only(
+                          top: 5,
                           left: 10,
                         )),
                   ),
@@ -149,6 +168,8 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
                       fillColor: Colors.white,
                       filled: true,
                       hintText: 'Take a note...',
+                      hintStyle: context.titleMedium!.copyWith(color: CLR.defaultTextColor),
+
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.only(left: 10, top: 10)),
                 ),
@@ -177,7 +198,7 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
                           }),
                       Transform.scale(
                         scale: 0.7,
-                        child: MorePopUpWidget(),
+                        child: const MorePopUpWidget(),
                       ),
                       const Spacer(
                         flex: 1,
@@ -219,8 +240,14 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
   }
 }
 
-class MorePopUpWidget extends StatelessWidget {
-  MorePopUpWidget({Key? key}) : super(key: key);
+class MorePopUpWidget extends StatefulWidget {
+  const MorePopUpWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MorePopUpWidget> createState() => _MorePopUpWidgetState();
+}
+
+class _MorePopUpWidgetState extends State<MorePopUpWidget> {
   final List<String> _list = [
     'Delete note',
     'Add label',
@@ -241,6 +268,7 @@ class MorePopUpWidget extends StatelessWidget {
         splashRadius: 20,
         padding: EdgeInsets.zero,
         surfaceTintColor:Colors.black12,
+        position: PopupMenuPosition.under,
         constraints: const BoxConstraints(maxHeight: 204, maxWidth: 163),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         onSelected: (index) {
@@ -249,6 +277,10 @@ class MorePopUpWidget extends StatelessWidget {
             context.read<NotesCubit>().moveToBin(note);
           }
         },
+        onCanceled: (){
+
+        },
+        initialValue: 0,
         itemBuilder: (context) {
           return List.generate(_list.length, (index) {
             return _buildPopMenuItem(_list[index], index, context);
@@ -275,3 +307,4 @@ class MorePopUpWidget extends StatelessWidget {
     );
   }
 }
+

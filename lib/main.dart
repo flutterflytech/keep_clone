@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_keep_advanced/router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'classes/notes.dart';
+
+
 
 void main() async{
   await Hive.initFlutter();
@@ -10,6 +12,7 @@ void main() async{
   await Hive.openBox<Notes>('myNotes');
   await Hive.openBox<Notes>('deletedNotes');
   await Hive.openBox<Notes>('archivedNotes');
+  //usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -45,29 +48,29 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true
       ),
-      darkTheme:ThemeData(
-        //primaryColor: Colors.blue,
-        //primarySwatch:  Colors.yellow,
-          textButtonTheme: TextButtonThemeData(
-              style: ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.hovered)) {
-                      return Colors.black12;
-                    }else{
-                      return Colors.white;
-                    }
-
-                  }),
-              )),
-
-          colorSchemeSeed:  Colors.yellow,
-          highlightColor: Colors.grey,
-          navigationRailTheme: const NavigationRailThemeData(
-              backgroundColor: Colors.black
-          ),
-          useMaterial3: true
-      ) ,
-      themeMode: ThemeMode.light,
+      // darkTheme:ThemeData(
+      //   //primaryColor: Colors.blue,
+      //   //primarySwatch:  Colors.yellow,
+      //     textButtonTheme: TextButtonThemeData(
+      //         style: ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color>(
+      //                 (Set<MaterialState> states) {
+      //               if (states.contains(MaterialState.hovered)) {
+      //                 return Colors.black12;
+      //               }else{
+      //                 return Colors.white;
+      //               }
+      //
+      //             }),
+      //         )),
+      //
+      //     colorSchemeSeed:  Colors.yellow,
+      //     highlightColor: Colors.grey,
+      //     navigationRailTheme: const NavigationRailThemeData(
+      //         backgroundColor: Colors.black
+      //     ),
+      //     useMaterial3: true
+      // ) ,
+      // themeMode: ThemeMode.light,
 
     );
   }

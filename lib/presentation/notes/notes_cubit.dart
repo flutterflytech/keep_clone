@@ -7,53 +7,50 @@ import '../../classes/notes.dart';
 part 'notes_state.dart';
 
 class NotesCubit extends Cubit<NotesState> {
-  NotesCubit() : super(const NotesInitial(false,'',[])){
+  NotesCubit() : super(const NotesInitial(false, '', [])) {
     getSavedNotes();
   }
 
-
-  void createNote(Notes note){
+  void createNote(Notes note) {
     List<Notes> list = [];
     list.addAll(state.listOfNotes);
     list.add(note);
     var box = Hive.box<Notes>('myNotes');
     box.add(note);
 
-
-    emit(CreateNoteState(state.isLoading,state.errorMessage,list));
+    emit(CreateNoteState(state.isLoading, state.errorMessage, list));
   }
 
-
-  void getSavedNotes(){
+  void getSavedNotes() {
     List<Notes> list = [];
     var box = Hive.box<Notes>('myNotes');
-   list = box.values.toList();
+    list = box.values.toList();
 
+    emit(NotesLoaded(state.isLoading, state.errorMessage, list));
+  }
 
+  void editNotes(Notes note,int key){
+    var box = Hive.box<Notes>('myNotes');
+    box.putAt(key, note);
+    getSavedNotes();
 
-    emit(NotesLoaded(state.isLoading,state.errorMessage,list));
 
   }
 
-  void moveToBin(Notes note){
+  void moveToBin(Notes note) {
     //var currentBox = Hive.box<Notes>('myNotes');
-   note.delete();
+    note.delete();
 
     var box = Hive.box<Notes>('deletedNotes');
     box.add(note);
-   List<Notes> list = [];
-   var mybox = Hive.box<Notes>('myNotes');
-   list = mybox.values.toList();
+    List<Notes> list = [];
+    var myBox = Hive.box<Notes>('myNotes');
+    list = myBox.values.toList();
 
-
-
-   emit(NotesLoaded(state.isLoading,state.errorMessage,list));
-
-
-
+    emit(NotesLoaded(state.isLoading, state.errorMessage, list));
   }
 
-  void moveToArchive(Notes note){
+  void moveToArchive(Notes note) {
     note.delete();
 
     var box = Hive.box<Notes>('archivedNotes');
@@ -62,11 +59,6 @@ class NotesCubit extends Cubit<NotesState> {
     var myBox = Hive.box<Notes>('myNotes');
     list = myBox.values.toList();
 
-
-
-    emit(NotesLoaded(state.isLoading,state.errorMessage,list));
-
-
+    emit(NotesLoaded(state.isLoading, state.errorMessage, list));
   }
-
 }

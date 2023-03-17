@@ -6,7 +6,7 @@ This application uses hive local database.
 **Link** --[https://anuragkumar7416.github.io/notes-app/#/](https://anuragkumar7416.github.io/notes-app/#/)
 
 ## Screenshots
-![Screenshot 2023-03-14 at 11 03 35 AM](https://user-images.githubusercontent.com/77187473/224906495-d28bd3e3-eaea-45e0-84a8-2d28b80a8426.png)
-![Screenshot 2023-03-14 at 11 16 17 AM](https://user-images.githubusercontent.com/77187473/224907695-61e1d2cd-c933-4672-9e98-3907f79095b8.png)
-![Screenshot 2023-03-14 at 11 10 38 AM](https://user-images.githubusercontent.com/77187473/224907467-2132d044-bd2e-4b85-898e-a0de6e63b998.png)
-![Screenshot 2023-03-14 at 11 11 03 AM](https://user-images.githubusercontent.com/77187473/224906944-162ba6dc-3cc9-4bd1-a5f7-68437b922511.png)
+![Screenshot 2023-03-17 at 10 25 03 AM](https://user-images.githubusercontent.com/77187473/225816295-e65ffcbc-1471-4d89-b434-1e12b84d311f.png)
+![Screenshot 2023-03-17 at 10 25 15 AM](https://user-images.githubusercontent.com/77187473/225816399-d855ab8d-615f-4553-bf4d-bd2306c3f55f.png)
+![Screenshot 2023-03-17 at 10 25 40 AM](https://user-images.githubusercontent.com/77187473/225816842-8b7e36d8-439a-48b0-9b9b-bdd856fa8988.png)
+![Screenshot 2023-03-17 at 10 26 03 AM](https://user-images.githubusercontent.com/77187473/225816967-0b2c153b-8e5b-4de5-840d-a0f458c30afd.png)

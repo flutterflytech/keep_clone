@@ -22,19 +22,26 @@ class _NotesCardState extends State<NotesCard> {
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
   bool isHovered = false;
+  bool isClicked = false;
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return MouseRegion(
       onEnter: (event) {
         setState(() {
           isHovered = true;
         });
       },
+
       onExit: (_) {
-        setState(() {
-          isHovered = false;
-        });
+        if(!isClicked){
+          setState(() {
+            isHovered = false;
+          });
+
+        }
+
       },
       child: Theme(
         data: ThemeData(cardColor: Colors.white),
@@ -48,7 +55,7 @@ class _NotesCardState extends State<NotesCard> {
                     context: context,
                     builder: (context) {
                       return Dialog(
-                        insetPadding: EdgeInsets.zero,
+                        insetPadding: const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                         child: ClipPath(
@@ -58,6 +65,7 @@ class _NotesCardState extends State<NotesCard> {
                           child: Container(
                             height: null,
                             width: 600,
+
                             color: Colors.white,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -137,7 +145,7 @@ class _NotesCardState extends State<NotesCard> {
                                         }),
                                     Transform.scale(
                                       scale: 0.7,
-                                      child: const MorePopUpWidget(),
+                                      child:  MorePopUpWidget(callback: (value){},),
                                     ),
                                     const Spacer(
                                       flex: 1,
@@ -210,7 +218,10 @@ class _NotesCardState extends State<NotesCard> {
                       isHovered
                           ? Provider<Notes>(
                               create: (_) => widget.notes,
-                              child: const ToolsRowWidget())
+                              child:  ToolsRowWidget(callback: (value)=>setState((){
+                                print('hhhhhh${value}');
+                                isClicked = value;
+                              }),))
                           : const SizedBox(
                               height: 40,
                             ),

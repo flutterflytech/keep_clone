@@ -4,9 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'classes/notes.dart';
 
-
-
-void main() async{
+void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NotesAdapter());
   await Hive.openBox<Notes>('myNotes');
@@ -22,32 +20,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-     routerConfig: appRouter,
+      routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      title: 'Google Keep',
+      title: 'Notes App',
       theme: ThemeData(
-        //primaryColor: Colors.blue,
-        //primarySwatch:  Colors.yellow,
-        textButtonTheme: TextButtonThemeData(
-          style: ButtonStyle(overlayColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                if (states.contains(MaterialState.hovered)) {
-                  return Colors.black12;
-                }else{
-                  return Colors.white;
-                }
-
-              }),
+          //primaryColor: Colors.blue,
+          //primarySwatch:  Colors.yellow,
+          textButtonTheme: TextButtonThemeData(style: ButtonStyle(
+            overlayColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.hovered)) {
+                return Colors.black12;
+              } else {
+                return Colors.white;
+              }
+            }),
           )),
           cardColor: Colors.white,
-
-          colorSchemeSeed:  Colors.yellow,
-        highlightColor: Colors.white,
-        navigationRailTheme: const NavigationRailThemeData(
-          backgroundColor: Colors.white
-        ),
-        useMaterial3: true
-      ),
+          colorSchemeSeed: Colors.yellow,
+          highlightColor: Colors.white,
+          navigationRailTheme:
+              const NavigationRailThemeData(backgroundColor: Colors.white),
+          useMaterial3: true),
       // darkTheme:ThemeData(
       //   //primaryColor: Colors.blue,
       //   //primarySwatch:  Colors.yellow,
@@ -71,8 +65,6 @@ class MyApp extends StatelessWidget {
       //     useMaterial3: true
       // ) ,
       // themeMode: ThemeMode.light,
-
     );
   }
 }
-

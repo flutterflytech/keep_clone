@@ -10,38 +10,40 @@ import 'package:google_keep_advanced/extensions/typography_extension.dart';
 
 
 
-final appBar = AppBar(
-  leadingWidth: 950,
-  leading: Row(
-    children: [
-      const SizedBox(width: 10,),
-      IconButton(
-        padding: const EdgeInsets.all(12),
-        onPressed: (){
-        },
-          tooltip: 'Main menu',
-          icon: const Icon(Icons.menu,color: Colors.grey,size: 24,)),
-      Image.asset(ImagePaths.appLogo,fit: BoxFit.fill,height: 48,width: 48,),
-     Text('Keep', style: GoogleFonts.roboto(color: CLR.defaultTextColor,fontSize: 22),),
-      const SizedBox(width: 60,),
-      SearchBar(),
-    ],
-  ),
-
-
-  backgroundColor: Colors.white,
-  bottom: PreferredSize(
-      preferredSize: const Size.fromHeight(1.0),
-  child: Container(
-    color: Colors.grey,
-    height: 1.0,
-  ),
-),
-
-
-
-
-);
+// final appBar = AppBar(
+//   leadingWidth: 950,
+//   leading: Row(
+//     children: [
+//       const SizedBox(width: 10,),
+//       IconButton(
+//         padding: const EdgeInsets.all(12),
+//         onPressed: (){
+//           Scaffold.of(context).openDrawer();
+//         },
+//           tooltip: 'Main menu',
+//           icon: const Icon(Icons.menu,color: Colors.grey,size: 24,)),
+//       Image.asset(ImagePaths.appLogo,fit: BoxFit.fill,height: 24,width: 24,),
+//      const SizedBox(width: 10,),
+//      Text('Notes', style: GoogleFonts.roboto(color: CLR.defaultTextColor,fontSize: 22),),
+//       const SizedBox(width: 60,),
+//       SearchBar(),
+//     ],
+//   ),
+//
+//
+//   backgroundColor: Colors.white,
+//   bottom: PreferredSize(
+//       preferredSize: const Size.fromHeight(1.0),
+//   child: Container(
+//     color: Colors.grey,
+//     height: 1.0,
+//   ),
+// ),
+//
+//
+//
+//
+// );
 
 
 class SearchBar extends StatelessWidget {
@@ -56,14 +58,13 @@ class SearchBar extends StatelessWidget {
        double maxWidth = MediaQuery.of(context).size.width;
        if(maxWidth>565){
          return Container(
-           //duration: const Duration(microseconds: 50),
 
            width: maxWidth >= 950? 722: maxWidth*0.50,
+           margin: const EdgeInsets.only(left: 60),
            height: 48,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.circular(8),
                color: CLR.searchBoxColor
-
            ),
            child: TextField(
              controller: searchController,
@@ -87,7 +88,7 @@ class SearchBar extends StatelessWidget {
        }else{
          return Row(
            children: [
-             const SizedBox(width: 200,),
+             const Spacer(flex: 1,),
              IconButton(onPressed: (){}, icon: const Icon(Icons.search,color: CLR.defaultTextColor,)),
            ],
          );

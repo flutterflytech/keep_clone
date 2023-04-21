@@ -9,7 +9,8 @@ import '../presentation/notes/notes_page.dart';
 import '../utils/alerts_utils.dart';
 
 class ToolsRowWidget extends StatelessWidget {
-  const ToolsRowWidget({Key? key}) : super(key: key);
+  final Function(bool) callback;
+  const ToolsRowWidget({Key? key, required this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class ToolsRowWidget extends StatelessWidget {
                 }),
             Transform.scale(
               scale: 0.7,
-              child: MorePopUpWidget(),
+              child: MorePopUpWidget(callback: (value ) =>callback(value),  ),
             ),
           ],
         );

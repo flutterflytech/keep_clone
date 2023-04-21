@@ -84,154 +84,157 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, dimens) {
-      return Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        child: ClipPath(
-          clipper: ShapeBorderClipper(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5))),
-          child: Container(
-            height: isExpanded ? null : 48,
-            width: dimens.maxWidth >= 700 ? 600 : 400,
-            color: Colors.white,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Visibility(
-                  visible: isExpanded,
-                  child: TextField(
-                    controller: widget.titleController,
-                    onTap: () {},
+      return Padding(
+        padding:  EdgeInsets.symmetric(horizontal: dimens.maxWidth >= 700?0.0:20),
+        child: Card(
+          elevation: 5,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          child: ClipPath(
+            clipper: ShapeBorderClipper(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5))),
+            child: Container(
+              height: isExpanded ? null : 48,
+              width: dimens.maxWidth >= 700 ? 600 : null,
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Visibility(
+                    visible: isExpanded,
+                    child: TextField(
+                      controller: widget.titleController,
+                      onTap: () {},
+                      maxLines: null,
+                      autofocus: false,
+                      keyboardType: TextInputType.multiline,
+                      textInputAction: TextInputAction.newline,
+                      onSubmitted: (value) {},
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.push_pin_outlined),
+                            tooltip: 'Pin note',
+                          ),
+                          suffixIconConstraints:
+                              BoxConstraints.tight(const Size(45, 30)),
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: 'Title',
+                          hintStyle: context.labelLarge!.copyWith(color: CLR.defaultTextColor),
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.only(
+                            top: 5,
+                            left: 10,
+                          )),
+                    ),
+                  ),
+                  TextField(
+                    controller: widget.bodyController,
                     maxLines: null,
                     autofocus: false,
                     keyboardType: TextInputType.multiline,
                     textInputAction: TextInputAction.newline,
-                    onSubmitted: (value) {},
+                    onTap: () {
+                      setState(() {
+                        isExpanded = true;
+                      });
+                    },
                     decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.push_pin_outlined),
-                          tooltip: 'Pin note',
-                        ),
+                        suffixIcon: isExpanded
+                            ? const SizedBox()
+                            : Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.check_box_outlined),
+                                    tooltip: 'New list',
+                                    hoverColor: Colors.black12,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.brush),
+                                    tooltip: 'New note with drawing',
+                                    hoverColor: Colors.black12,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.image_outlined),
+                                    tooltip: 'New note with image',
+                                    hoverColor: Colors.black12,
+                                  ),
+                                ],
+                              ),
                         suffixIconConstraints:
-                            BoxConstraints.tight(const Size(45, 30)),
+                            BoxConstraints.loose(const Size(144, 40)),
                         fillColor: Colors.white,
                         filled: true,
-                        hintText: 'Title',
-                        hintStyle: context.labelLarge!.copyWith(color: CLR.defaultTextColor),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.only(
-                          top: 5,
-                          left: 10,
-                        )),
-                  ),
-                ),
-                TextField(
-                  controller: widget.bodyController,
-                  maxLines: null,
-                  autofocus: false,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  onTap: () {
-                    setState(() {
-                      isExpanded = true;
-                    });
-                  },
-                  decoration: InputDecoration(
-                      suffixIcon: isExpanded
-                          ? const SizedBox()
-                          : Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.check_box_outlined),
-                                  tooltip: 'New list',
-                                  hoverColor: Colors.black12,
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.brush),
-                                  tooltip: 'New note with drawing',
-                                  hoverColor: Colors.black12,
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.image_outlined),
-                                  tooltip: 'New note with image',
-                                  hoverColor: Colors.black12,
-                                ),
-                              ],
-                            ),
-                      suffixIconConstraints:
-                          BoxConstraints.tight(const Size(130, 40)),
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: 'Take a note...',
-                      hintStyle: context.titleMedium!.copyWith(color: CLR.defaultTextColor),
+                        hintText: 'Take a note...',
+                        hintStyle: context.titleMedium!.copyWith(color: CLR.defaultTextColor),
 
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(left: 10, top: 10)),
-                ),
-                Visibility(
-                  visible: isExpanded,
-                  child: Row(
-                    children: [
-                      TransformSmallScaleWidget(
-                          icon: Icons.add_alert_outlined,
-                          toolTip: 'Remind me',
-                          onTap: () {}),
-                      TransformSmallScaleWidget(
-                          icon: Icons.person_add_alt_outlined,
-                          toolTip: 'Collaborator',
-                          onTap: () {}),
-                      TransformSmallScaleWidget(
-                          icon: Icons.color_lens_outlined,
-                          toolTip: 'Background options',
-                          onTap: () {}),
-                      TransformSmallScaleWidget(
-                          icon: Icons.archive_outlined,
-                          toolTip: 'Archive',
-                          onTap: () {
-                            Notes note = Provider.of<Notes>(context, listen: false);
-                            context.read<NotesCubit>().moveToArchive(note);
-                          }),
-                      Transform.scale(
-                        scale: 0.7,
-                        child: const MorePopUpWidget(),
-                      ),
-                      const Spacer(
-                        flex: 1,
-                      ),
-                      BlocBuilder<NotesCubit, NotesState>(
-                        builder: (context, state) {
-                          return TextButton(
-                              onPressed: () {
-                                if (widget.titleController.text.isNotEmpty ||
-                                    widget.bodyController.text.isNotEmpty) {
-                                  context.read<NotesCubit>().createNote(Notes(
-                                      widget.titleController.text,
-                                      widget.bodyController.text));
-                                  widget.bodyController.clear();
-                                  widget.titleController.clear();
-                                }
-                                setState(() {
-                                  isExpanded = false;
-                                });
-                              },
-                              style: TextButton.styleFrom(
-                                fixedSize: const Size(87, 30),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                
-                                  foregroundColor: Colors.black),
-                              child:  Text('Close',style: context.labelLarge,));
-                        },
-                      ),
-                      const SizedBox(width: 10,)
-                    ],
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.only(left: 10, top: 10)),
                   ),
-                ),
-              ],
+                  Visibility(
+                    visible: isExpanded,
+                    child: Row(
+                      children: [
+                        TransformSmallScaleWidget(
+                            icon: Icons.add_alert_outlined,
+                            toolTip: 'Remind me',
+                            onTap: () {}),
+                        TransformSmallScaleWidget(
+                            icon: Icons.person_add_alt_outlined,
+                            toolTip: 'Collaborator',
+                            onTap: () {}),
+                        TransformSmallScaleWidget(
+                            icon: Icons.color_lens_outlined,
+                            toolTip: 'Background options',
+                            onTap: () {}),
+                        TransformSmallScaleWidget(
+                            icon: Icons.archive_outlined,
+                            toolTip: 'Archive',
+                            onTap: () {
+                              Notes note = Provider.of<Notes>(context, listen: false);
+                              context.read<NotesCubit>().moveToArchive(note);
+                            }),
+                        Transform.scale(
+                          scale: 0.7,
+                          child:  MorePopUpWidget(callback: (value){},),
+                        ),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        BlocBuilder<NotesCubit, NotesState>(
+                          builder: (context, state) {
+                            return TextButton(
+                                onPressed: () {
+                                  if (widget.titleController.text.isNotEmpty ||
+                                      widget.bodyController.text.isNotEmpty) {
+                                    context.read<NotesCubit>().createNote(Notes(
+                                        widget.titleController.text,
+                                        widget.bodyController.text));
+                                    widget.bodyController.clear();
+                                    widget.titleController.clear();
+                                  }
+                                  setState(() {
+                                    isExpanded = false;
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                  fixedSize: const Size(80, 30),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+
+                                    foregroundColor: Colors.black),
+                                child:  Text('Close',style: context.labelLarge,));
+                          },
+                        ),
+                        const SizedBox(width: 10,)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -241,7 +244,8 @@ class _TakeNoteFieldState extends State<TakeNoteField> {
 }
 
 class MorePopUpWidget extends StatefulWidget {
-  const MorePopUpWidget({Key? key}) : super(key: key);
+  final Function(bool) callback;
+  const MorePopUpWidget({Key? key, required this.callback}) : super(key: key);
 
   @override
   State<MorePopUpWidget> createState() => _MorePopUpWidgetState();
@@ -271,6 +275,9 @@ class _MorePopUpWidgetState extends State<MorePopUpWidget> {
         position: PopupMenuPosition.under,
         constraints: const BoxConstraints(maxHeight: 204, maxWidth: 163),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        onOpened: (){
+          widget.callback(true);
+        },
         onSelected: (index) {
           if (index == 0) {
             Notes note = Provider.of<Notes>(context, listen: false);
@@ -278,6 +285,7 @@ class _MorePopUpWidgetState extends State<MorePopUpWidget> {
           }
         },
         onCanceled: (){
+          widget.callback(false);
 
         },
         initialValue: 0,

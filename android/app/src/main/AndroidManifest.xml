@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.google_keep_advanced">
+
    <application
         android:label="google_keep_advanced"
         android:name="${applicationName}"

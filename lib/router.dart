@@ -52,7 +52,6 @@ final appRouter = GoRouter(
               }),
         ],
         builder: (context, state, child) {
-          //debugPrint('loaction${state.}');
           return DashboardPage(location: state.location,child: child,);
         }),
   ],

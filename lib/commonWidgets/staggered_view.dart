@@ -58,16 +58,14 @@ class _StaggeredNotesViewState extends State<StaggeredNotesView> {
             ),
           );
         } else {
-          return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.listOfNotes.length,
-                  itemBuilder: (context, index) {
-                    return NotesCard(notes: widget.listOfNotes[index]);
-                  }),
-            ),
+          return Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: widget.listOfNotes.length,
+                itemBuilder: (context, index) {
+                  return NotesCard(notes: widget.listOfNotes[index]);
+                }),
           );
         }
       }),

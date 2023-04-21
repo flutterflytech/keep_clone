@@ -2,11 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_keep_advanced/app_bar.dart';
+import 'package:google_keep_advanced/extensions/breakpoints_extension.dart';
 import 'package:google_keep_advanced/extensions/typography_extension.dart';
 import 'package:google_keep_advanced/presentation/dashboard/dashboard_cubit.dart';
+import 'package:google_keep_advanced/presentation/dashboard/drawer/drawer_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../app_constants.dart';
+import '../../classes/navigation_route.dart';
 
 class DashboardPage extends StatefulWidget {
   final Widget child;
@@ -20,30 +25,30 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  List<NavigationDestination> destinations = [
-    NavigationDestination(
-        icon: const Icon(Icons.lightbulb_outline),
-        selectedIcon: const Icon(Icons.lightbulb),
+  List<NavigationRoutes> destinations = [
+    NavigationRoutes(
+        icon: Icons.library_books_outlined,
+        selectedIcon: Icons.library_books_rounded,
         label: 'Notes',
         route: RoutesName.home),
-    NavigationDestination(
-        icon: const Icon(Icons.notifications_none),
-        selectedIcon: const Icon(Icons.notifications),
+    NavigationRoutes(
+        icon: Icons.notifications_none,
+        selectedIcon: Icons.notifications,
         label: 'Remainders',
         route: RoutesName.remainder),
-    NavigationDestination(
-        icon: const Icon(Icons.edit_outlined),
-        selectedIcon: const Icon(Icons.edit),
+    NavigationRoutes(
+        icon: Icons.edit_outlined,
+        selectedIcon: Icons.edit,
         label: 'Edit labels',
         route: RoutesName.edit),
-    NavigationDestination(
-        icon: const Icon(Icons.archive_outlined),
-        selectedIcon: const Icon(Icons.archive),
+    NavigationRoutes(
+        icon: Icons.archive_outlined,
+        selectedIcon: Icons.archive,
         label: 'Archive',
         route: RoutesName.archive),
-    NavigationDestination(
-        icon: const Icon(CupertinoIcons.trash),
-        selectedIcon: const Icon(CupertinoIcons.trash_fill),
+    NavigationRoutes(
+        icon: CupertinoIcons.trash,
+        selectedIcon: CupertinoIcons.trash_fill,
         label: 'Bin',
         route: RoutesName.bin),
   ];
@@ -63,6 +68,8 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -71,37 +78,136 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (context, state) {
           return LayoutBuilder(
             builder: (context, dimens) {
-              return Scaffold(
-                backgroundColor: Colors.white,
-                appBar: appBar,
-                body: Row(
-                  children: [
-                    NavigationRail(
-                        onDestinationSelected: (value) {
-                          context
-                              .read<DashboardCubit>()
-                              .onDrawerItemSelected(value);
+              if (dimens.isMobile) {
+                return Scaffold(
+                  key: _scaffoldKey,
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    leadingWidth: 950,
+                    leading: Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                            padding: const EdgeInsets.all(12),
+                            onPressed: () =>
+                                _scaffoldKey.currentState!.openDrawer(),
+                            tooltip: 'Main menu',
+                            icon: const Icon(
+                              Icons.menu,
+                              color: Colors.grey,
+                              size: 24,
+                            )),
+                        Image.asset(
+                          ImagePaths.appLogo,
+                          fit: BoxFit.fill,
+                          height: 24,
+                          width: 24,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Notes',
+                          style: GoogleFonts.roboto(
+                              color: CLR.defaultTextColor, fontSize: 22),
+                        ),
+                        Flexible(flex: 1, child: SearchBar()),
+                      ],
+                    ),
+                    backgroundColor: Colors.white,
+                    bottom: PreferredSize(
+                      preferredSize: const Size.fromHeight(1.0),
+                      child: Container(
+                        color: Colors.grey,
+                        height: 1.0,
+                      ),
+                    ),
+                  ),
+                  body: widget.child,
+                  drawer: Provider<GlobalKey<ScaffoldState>>(
+                    create: (context) => _scaffoldKey,
+                    child: DrawerWidget(destinations: destinations,),
+                  ),
+                );
+              } else {
+                return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    leadingWidth: 950,
+                    leading: Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                            padding: const EdgeInsets.all(12),
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                            tooltip: 'Main menu',
+                            icon: const Icon(
+                              Icons.menu,
+                              color: Colors.grey,
+                              size: 24,
+                            )),
+                        Image.asset(
+                          ImagePaths.appLogo,
+                          fit: BoxFit.fill,
+                          height: 24,
+                          width: 24,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Notes',
+                          style: GoogleFonts.roboto(
+                              color: CLR.defaultTextColor, fontSize: 22),
+                        ),
+                        SearchBar(),
+                      ],
+                    ),
+                    backgroundColor: Colors.white,
+                    bottom: PreferredSize(
+                      preferredSize: const Size.fromHeight(1.0),
+                      child: Container(
+                        color: Colors.grey,
+                        height: 1.0,
+                      ),
+                    ),
+                  ),
+                  body: Row(
+                    children: [
+                      NavigationRail(
+                          onDestinationSelected: (value) {
+                            context
+                                .read<DashboardCubit>()
+                                .onDrawerItemSelected(value);
 
-                          context.go(destinations[value].route);
-                        },
-                        extended: dimens.maxWidth >= 800,
-                        destinations: destinations
-                            .map((e) => NavigationRailDestination(
-                                icon: e.icon,
-                                selectedIcon: e.selectedIcon,
-                                label: Text(
-                                  e.label,
-                                  style: context.titleSmall,
-                                )))
-                            .toList(),
-                        selectedIndex: getCurrentIndex()),
-                    Expanded(
-                      child: widget.child,
-                    )
-                    //Expanded(child: widget.child),
-                  ],
-                ),
-              );
+                            context.go(destinations[value].route);
+                          },
+                          extended: dimens.maxWidth >= 800,
+                          destinations: destinations
+                              .map((e) =>
+                              NavigationRailDestination(
+                                  icon: Icon(e.icon),
+                                  selectedIcon: Icon(e.selectedIcon),
+                                  label: Text(
+                                    e.label,
+                                    style: context.titleSmall,
+                                  )))
+                              .toList(),
+                          selectedIndex: getCurrentIndex()),
+                      Expanded(
+                        child: widget.child,
+                      )
+                      //Expanded(child: widget.child),
+                    ],
+                  ),
+                );
+              }
             },
           );
         },
@@ -111,15 +217,3 @@ class _DashboardPageState extends State<DashboardPage> {
 }
 
 
-class NavigationDestination {
-  final Icon icon;
-  final Icon selectedIcon;
-  final String label;
-  final String route;
-
-  NavigationDestination(
-      {required this.icon,
-      required this.selectedIcon,
-      required this.label,
-      required this.route});
-}
